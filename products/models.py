@@ -21,14 +21,14 @@ class Product(models.Model):
 class Variant(models.Model):
     product = models.ForeignKey(Product, related_name="variants", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    options = models.JSONField()  # Store variant options like 'sizes', 'colors'
+    options = models.JSONField()
 
     def __str__(self):
         return f"{self.name} - {self.product.ProductName}"
 
 class Subvariant(models.Model):
     variant = models.ForeignKey(Variant, related_name="subvariants", on_delete=models.CASCADE)
-    option = models.CharField(max_length=255)  # Specific options like 'S', 'M', 'L'
+    option = models.CharField(max_length=255)
 
     def __str__(self):
         return self.option
@@ -37,7 +37,7 @@ class Stock(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     variant = models.ForeignKey(Variant, on_delete=models.CASCADE)
     subvariant = models.ForeignKey(Subvariant, on_delete=models.CASCADE)
-    quantity = models.IntegerField()  # Stock level for a specific subvariant
+    quantity = models.IntegerField()
 
     def __str__(self):
         return f"{self.product.ProductName} - {self.variant.name} - {self.subvariant.option}"
